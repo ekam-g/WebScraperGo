@@ -21,6 +21,9 @@ func (Scrape) Demo() (value []interface{}) {
 		})
 		fmt.Println("Scrapping Complete")
 	})
-	c.Visit("https://www.w3schools.com/html/html_tables.asp")
+	err := c.Visit("https://www.w3schools.com/html/html_tables.asp")
+	if err != nil {
+		return nil
+	}
 	return value
 }
