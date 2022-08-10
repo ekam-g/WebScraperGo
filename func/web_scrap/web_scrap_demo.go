@@ -1,14 +1,14 @@
 package web_scrap
 
 import (
-	"fmt"
+	"errors"
 	"github.com/gocolly/colly"
 )
 
 type Scrape struct {
 }
 
-func (Scrape) Demo() (value []interface{}) {
+func (Scrape) Demo() (value []interface{}, err error) {
 	c := colly.NewCollector()
 	c.OnHTML("table#customers", func(e *colly.HTMLElement) {
 		e.ForEach("tr", func(_ int, el *colly.HTMLElement) {
@@ -19,11 +19,10 @@ func (Scrape) Demo() (value []interface{}) {
 					el.ChildText("td:nth-child(3)"),
 				})
 		})
-		fmt.Println("Scrapping Complete")
 	})
-	err := c.Visit("https://www.w3schools.com/html/html_tables.asp")
+	err = c.Visit("https://www.w3schools.com/html/html_tables.asp")
 	if err != nil {
-		return nil
+		return nil, errors.New("Error: " + err.Error())
 	}
-	return value
+	return value, nil
 }
